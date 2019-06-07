@@ -1,0 +1,76 @@
+---
+title: "RSCORE_Tutorials"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{RSCORE_Tutorials}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(RSCORE)
+library(Seurat)
+library(igraph)
+```
+This is an example of RSCORE. Data comes from NCBI GEO with accession GSE81861. When you have downloaded the raw data, we have to do pretreatment.
+For your data, you can do it by yourself and finally provide a Seurat class object, or you can provide a clean matrix data and use our mat2seurat function.
+```{r}
+RCA_count <- read.csv("../inst/extdata/GSE81861_Cell_Line_COUNT.csv", header=T, row.names = 1)
+row_names <- strsplit(row.names(RCA_count), '_')
+gene_names <- c()
+for (i in 1:length(row_names)){
+  temp = unlist(row_names[i])
+  gene_names[i] = temp[2]
+}
+
+row.names(RCA_count) <- make.names(gene_names, unique=TRUE)
+
+RCA_seurat <- CreateSeuratObject(counts = RCA_count, min.cells = 10, min.features = 1000, 
+                                  names.field = 3, names.delim = '_', 
+                                  assay = 'RNA', project = 'RCA')
+```
+
+We also suggest doing normalization and feature selection.
+```{r echo=FALSE}
+RCA_seurat <- subset(RCA_seurat, subset = nCount_RNA > 10000)
+RCA_seurat <- NormalizeData(RCA_seurat, normalization.method = "LogNormalize", scale.factor = 100000)
+RCA_seurat <- ScaleData(object = RCA_seurat)  
+RCA_seurat <- FindVariableFeatures(object = RCA_seurat, selection.method = 'vst', nfeatures = 5000)
+
+```
+
+PPI data is necessary. You can provide the adjacent matrix of PPI network by yourself,
+```{r}
+hs_network <- as.matrix(readRDS('../inst/extdata/hs_network_matrix_Biogrid-3.5.172.Rda'))
+
+```
+and then the parameter 'PPI' is just the matrix.
+```{r}
+RCA_seurat <- R.SCORE(Data = RCA_seurat, PPI = hs_network)
+
+```
+
+Or you can get it from our function. Then you have to set the parameter 'PPI' as 'String' or 'Biogrid'. This means we will download PPI data from STRING or BioGRID (It will cost some time, depends on your Internet speed). Both of these two choices should give the species (default is 9606, Homosapiens). 
+```{r}
+# RCA_seurat <- R.SCORE(Data = RCA_seurat, PPI = 'String', species = 9606)
+
+```
+
+The result is saved in 'Net' assay of RCA_seurat (it has been set as default assay).
+You can plot the tsne 
+```{r}
+VariableFeatures(RCA_seurat) <- rownames(RCA_seurat)
+RCA_seurat <- RunPCA(RCA_seurat, features = rownames(RCA_seurat), npcs = 30, reduction.name = "NetPCA",
+                     reduction.key = "NetPCA_", verbose = F)
+RCA_seurat <- RunTSNE(RCA_seurat, reduction = "NetPCA", dims = 1:10,
+                        reduction.name = "NetTSNE",  reduction.key = "NetTSNE_")
+DimPlot(RCA_seurat, reduction = 'NetTSNE', pt.size = 3, group.by = 'orig.ident')
+
+```
