@@ -7,4 +7,4 @@ if (!requireNamespace("devtools", quietly = TRUE)) install.packages("devtools")
 devtools::install_github("wycwycpku/RSCORE"，build_opts = NULL)
 ```
 More details and tutorials can be found at:
-[Introduction and Tutorials](https://github.com/wycwycpku/RSCORE)
+[Introduction and Tutorials](https://github.com/wycwycpku/RSCORE/blob/master/vignettes/RSCORE_Tutorials.Rmd)
