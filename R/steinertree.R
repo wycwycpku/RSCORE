@@ -1,4 +1,4 @@
-#' Title get steiner tree
+#' get steiner tree
 #'
 #' @param terminals
 #' @param graph
