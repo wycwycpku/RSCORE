@@ -2,7 +2,7 @@
 % Please edit documentation in R/getPPI_Biogrid.R
 \name{getPPI_Biogrid}
 \alias{getPPI_Biogrid}
-\title{Title}
+\title{get PPI from Biogrid}
 \usage{
 getPPI_Biogrid(object = NULL, species = 9606)
 }
@@ -13,5 +13,5 @@ getPPI_Biogrid(object = NULL, species = 9606)
 PPI matrix
 }
 \description{
-Title
+get PPI from Biogrid
 }

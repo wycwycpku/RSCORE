@@ -1,6 +1,6 @@
-#' Title R.SCORE
-#'
 #' R.SCORE
+#'
+#' explore single-cell RNA-seq data with the view of molecular networks.
 #'
 #' @param Data gene*cell matrix or a seurat object.
 #' @param PPI protein-protein network, you can provide a matrix if you have PPI data,

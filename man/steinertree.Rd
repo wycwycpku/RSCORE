@@ -2,7 +2,7 @@
 % Please edit documentation in R/steinertree.R
 \name{steinertree}
 \alias{steinertree}
-\title{Title}
+\title{get steiner tree}
 \usage{
 steinertree(terminals, graph, method = "sp", color = T, weighted = T,
   optimize = T)
@@ -14,5 +14,5 @@ steinertree(terminals, graph, method = "sp", color = T, weighted = T,
 
 }
 \description{
-Title
+calculate the steiner tree, two methods can be chosen
 }

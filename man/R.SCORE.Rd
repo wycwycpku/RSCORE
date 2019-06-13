@@ -2,7 +2,7 @@
 % Please edit documentation in R/R.SCORE.R
 \name{R.SCORE}
 \alias{R.SCORE}
-\title{Title}
+\title{R.SCORE}
 \usage{
 R.SCORE(Data, PPI = "Biogrid", species = 9606, score_threshold = 600,
   metric = c("cor", "rho", "phi", "phs"), module_min = 3,
@@ -32,5 +32,5 @@ Choose one of 'cor', 'rho', 'phi', 'phs'}
 a seurat object
 }
 \description{
-Title
+explore single-cell RNA-seq data with the view of molecular networks.
 }

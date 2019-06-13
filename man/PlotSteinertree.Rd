@@ -2,7 +2,7 @@
 % Please edit documentation in R/PlotSteinertree.R
 \name{PlotSteinertree}
 \alias{PlotSteinertree}
-\title{Title}
+\title{Plot steiner tree}
 \usage{
 PlotSteinertree(object, ident = NULL, method = "sp", weighted = T,
   onlysteiner = T, pagerank = T)
@@ -20,5 +20,5 @@ PlotSteinertree(object, ident = NULL, method = "sp", weighted = T,
 \item{pagerank}{if ture, the size of vertex is the pagerank value, default TRUE}
 }
 \description{
-Title
+show the steiner tree of given clusters
 }

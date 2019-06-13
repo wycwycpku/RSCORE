@@ -2,7 +2,7 @@
 % Please edit documentation in R/mat2seurat.R
 \name{mat2seurat}
 \alias{mat2seurat}
-\title{Title}
+\title{processing function}
 \usage{
 mat2seurat(Data, min_nFeature = 1000, min_nCount = 10000,
   features = NULL, selection.method = c("mean.var.plot", "vst",
@@ -26,14 +26,10 @@ mat2seurat(Data, min_nFeature = 1000, min_nCount = 10000,
 \item{mean.cutoff}{A two-length numeric vector with low- and high-cutoffs for feature means}
 
 \item{dispersion.cutoff}{A two-length numeric vector with low- and high-cutoffs for feature dispersions}
-
-\item{names.filed}{}
-
-\item{names.delim}{}
 }
 \value{
 Seurat object
 }
 \description{
-Title
+transfer raw matrix data to Seurat object
 }

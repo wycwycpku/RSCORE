@@ -1,4 +1,6 @@
-#' Title get PPI from Biogrid
+#' get PPI from Biogrid
+#'
+#' get PPI from Biogrid
 #'
 #' @param object
 #' @param species NCBI taxonomy identifier of the species to query for homologs, default is 9606(Homosapiens)

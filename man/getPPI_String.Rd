@@ -2,7 +2,7 @@
 % Please edit documentation in R/getPPI_String.R
 \name{getPPI_String}
 \alias{getPPI_String}
-\title{Title}
+\title{get PPI from String}
 \usage{
 getPPI_String(object, version = "10", species = 9606,
   score_threshold = 600)
@@ -20,5 +20,5 @@ getPPI_String(object, version = "10", species = 9606,
 PPI matrix
 }
 \description{
-Title
+get PPI from String
 }

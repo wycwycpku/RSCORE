@@ -1,4 +1,6 @@
-#' Title get steiner tree
+#' get steiner tree
+#'
+#' calculate the steiner tree, two methods can be chosen
 #'
 #' @param terminals
 #' @param graph

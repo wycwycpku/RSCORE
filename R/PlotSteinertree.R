@@ -1,4 +1,6 @@
-#' Title Plot steiner tree
+#' Plot steiner tree
+#'
+#' show the steiner tree of given clusters
 #'
 #' @param object
 #' @param ident which class you want to show, default: all

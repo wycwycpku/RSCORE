@@ -1,4 +1,6 @@
-#' Title transfer raw matrix data to Seurat object
+#' processing function
+#'
+#' transfer raw matrix data to Seurat object
 #'
 #' @param Data gene*cell matrix
 #' @param min_nFeature Include cells where at least this many features are detected
