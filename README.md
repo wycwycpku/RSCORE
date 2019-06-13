@@ -6,7 +6,7 @@ You can install RSCORE:
 if (!requireNamespace("devtools", quietly = TRUE)) install.packages("devtools")
 devtools::install_github("wycwycpku/RSCORE")
 ```
-if you want to build vignettes, you need add an option
+if you want to build vignettes, you need to add an option
 ```
 devtools::install_github("wycwycpku/RSCORE"，build_opts = NULL)
 ```
