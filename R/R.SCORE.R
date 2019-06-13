@@ -1,5 +1,7 @@
 #' Title R.SCORE
 #'
+#' R.SCORE
+#'
 #' @param Data gene*cell matrix or a seurat object.
 #' @param PPI protein-protein network, you can provide a matrix if you have PPI data,
 #'            or you can let PPI = 'Biogrid' or 'String', the system will download corresponding PPI data.
