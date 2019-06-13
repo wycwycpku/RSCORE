@@ -1,5 +1,4 @@
-# Shortest Path Based Approximation (SP)
-#' Title
+#' Title get steiner tree
 #'
 #' @param terminals
 #' @param graph

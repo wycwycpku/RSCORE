@@ -1,4 +1,4 @@
-#' Title
+#' Title Plot steiner tree
 #'
 #' @param object
 #' @param ident which class you want to show, default: all

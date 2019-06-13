@@ -1,4 +1,4 @@
-#' Title
+#' Title get PPI from String
 #'
 #' @param object an Seurat object which contains the expression matrix
 #' @param version String version
