@@ -4,18 +4,23 @@
 #' @param ident which class you want to show, default: all
 #' @param weighted if it is TRUE, the network will be weighted, default TRUE
 #' @param onlysteiner if it is TRUE, will only show the steiner tree, default TRUE
-#'
+#' @param method how to find steinertree, default is 'sp' (Shortest Path Based Approximation)
+#'               'kb' (Kruskal's minimum spanning tree algorithm) also can be choosen. Be careful, 'kb' is very slow.
+#' @param pagerank if ture, the size of vertex is the pagerank value, default TRUE
 #' @return
 #' @export
 #'
 #' @examples
-PlotSteinertree <- function(object, ident = NULL, weighted = T, onlysteiner = T)
+PlotSteinertree <- function(object, ident = NULL, method = 'sp', weighted = T, onlysteiner = T, pagerank = T)
 {
   Data_corr <- object@misc$Data_net
+  network_trim <- graph_from_adjacency_matrix(Data_corr, mode = 'undirected', weighted = T)
+  pr_value <- page_rank(network_trim, directed = F)
   Data_dist <- 1/(Data_corr + 1e-3)
 
   #weighted net
   network_trim <- graph_from_adjacency_matrix(Data_dist, mode = 'undirected', weighted = T)
+  V(network_trim)$weight <- pr_value$vector
   connected <- components(network_trim)
   genes_in_connected_set <- names(connected$membership[connected$membership == 1])
 
@@ -45,7 +50,8 @@ PlotSteinertree <- function(object, ident = NULL, weighted = T, onlysteiner = T)
     both_genes <- marker_genes[marker_genes %in% module_genes]
     terminals <- unique(c(marker_genes, module_genes))
 
-    steiner_tree_sp <- steinertree(terminals = terminals, graph = network_trim, weighted = weighted)
+    cat('calculate tree\n')
+    steiner_tree_sp <- steinertree(terminals = terminals, graph = network_trim, method= method, weighted = weighted)
 
     whichfig <- onlysteiner + 1
     ###Color
@@ -53,9 +59,19 @@ PlotSteinertree <- function(object, ident = NULL, weighted = T, onlysteiner = T)
     V(steiner_tree_sp[[whichfig]])[marker_genes]$color <- 'red'
     V(steiner_tree_sp[[whichfig]])[module_genes]$color <- 'green'
     V(steiner_tree_sp[[whichfig]])[both_genes]$color <- 'yellow'
+    V(steiner_tree_sp[[whichfig]])[which( V(steiner_tree_sp[[whichfig]])$color == 'white')]$weight <- 1
+    temp_weight <- V(steiner_tree_sp[[whichfig]])[which( V(steiner_tree_sp[[whichfig]])$color != 'white')]$weight
+    temp_weight <- 8*scale(temp_weight, center = min(temp_weight), scale = max(temp_weight)-min(temp_weight))+1
+    V(steiner_tree_sp[[whichfig]])[which( V(steiner_tree_sp[[whichfig]])$color != 'white')]$weight <- temp_weight
+
 
     set.seed(0)
-    plot(steiner_tree_sp[[whichfig]], vertex.size=4, main=i, edge.curved=0.3,
+    if(pagerank == T){
+       plot(steiner_tree_sp[[whichfig]], vertex.size=V(steiner_tree_sp[[whichfig]])$weight, main=i, edge.curved=0.3,
+            vertex.label.cex=.5,vertex.label.dist=1)
+    }else{
+      plot(steiner_tree_sp[[whichfig]], vertex.size=4, main=i, edge.curved=0.3,
          vertex.label.cex=.5,vertex.label.dist=1)
+    }
   }
 }

@@ -4,14 +4,20 @@
 \alias{PlotSteinertree}
 \title{Title}
 \usage{
-PlotSteinertree(object, ident = NULL, weighted = T, onlysteiner = T)
+PlotSteinertree(object, ident = NULL, method = "sp", weighted = T,
+  onlysteiner = T, pagerank = T)
 }
 \arguments{
 \item{ident}{which class you want to show, default: all}
 
+\item{method}{how to find steinertree, default is 'sp' (Shortest Path Based Approximation)
+'kb' (Kruskal's minimum spanning tree algorithm) also can be choosen. Be careful, 'kb' is very slow.}
+
 \item{weighted}{if it is TRUE, the network will be weighted, default TRUE}
 
 \item{onlysteiner}{if it is TRUE, will only show the steiner tree, default TRUE}
+
+\item{pagerank}{if ture, the size of vertex is the pagerank value, default TRUE}
 }
 \description{
 Title

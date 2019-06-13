@@ -4,10 +4,11 @@
 \alias{steinertree}
 \title{Title}
 \usage{
-steinertree(terminals, graph, color = T, weighted = T, optimize = T)
+steinertree(terminals, graph, method = "sp", color = T, weighted = T,
+  optimize = T)
 }
 \arguments{
-\item{optimize}{}
+\item{method}{}
 }
 \value{
 
