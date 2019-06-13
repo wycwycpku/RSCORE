@@ -91,7 +91,7 @@ R.SCORE <- function(Data, PPI = 'Biogrid', species = 9606, score_threshold = 600
   run_label = c()
   for (rw_step in 1:max_step){
     set.seed(123)
-    network_cluster <- walktrap.community(network_trim,weights = E(network_trim),steps =rw_step)
+    network_cluster <- walktrap.community(network_trim,steps =rw_step)
     gene_sets_all <- c(gene_sets_all,communities(network_cluster))
     run_label <- c(run_label,rep(rw_step,length(communities(network_cluster))))
   }
