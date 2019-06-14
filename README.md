@@ -8,7 +8,7 @@ devtools::install_github("wycwycpku/RSCORE")
 ```
 if you want to build vignettes, you need to add an option
 ```
-devtools::install_github("wycwycpku/RSCORE"，build_opts = NULL)
+devtools::install_github("wycwycpku/RSCORE", build_opts = NULL)
 ```
 More details and tutorials can be found at:
 [Introduction and Tutorials](https://github.com/wycwycpku/RSCORE/blob/master/vignettes/RSCORE_Tutorials.Rmd)
