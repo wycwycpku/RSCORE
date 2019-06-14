@@ -11,7 +11,7 @@
 #' @examples
 getPPI_Biogrid <- function(object = NULL, species = 9606)
 {
-  dbFiles <- c('https://downloads.thebiogrid.org/Download/BioGRID/Release-Archive/BIOGRID-3.5.172/BIOGRID-ALL-3.5.172.tab2.zip')
+  dbFiles <- c('https://downloads.thebiogrid.org/Download/BioGRID/Release-Archive/BIOGRID-3.5.173/BIOGRID-ALL-3.5.173.tab2.zip')
   if(!file.exists(sub(pattern = 'zip', replacement = 'txt', x = basename(dbFiles))))
   {
     if(!file.exists(basename(dbFiles)))
@@ -33,7 +33,7 @@ getPPI_Biogrid <- function(object = NULL, species = 9606)
   links <- PPI[,c('Official.Symbol.Interactor.A','Official.Symbol.Interactor.B')]
   net <- graph_from_data_frame(d = links,vertices = nodes,directed = FALSE)
   net <- igraph::simplify(net)
-  saveRDS(as_adj(net),'hs_network_matrix_Biogrid-3.5.172.Rda')
+  saveRDS(as_adj(net),'hs_network_matrix_Biogrid-3.5.173.Rda')
   return(as_adj(net))
 }
 

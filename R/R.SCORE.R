@@ -22,7 +22,7 @@
 #' @examples
 R.SCORE <- function(Data, PPI = 'Biogrid', species = 9606, score_threshold = 600,
                   metric = c('cor','rho','phi','phs'),
-                  module_min = 3, max_step = 5, AUCRank = 400)
+                  module_min = 3, max_step = 10, AUCRank = 400)
 {
   ## data processing
   if(class(Data) == 'matrix'){
