@@ -6,7 +6,7 @@
 \usage{
 R.SCORE(Data, PPI = "Biogrid", species = 9606, score_threshold = 600,
   metric = c("cor", "rho", "phi", "phs"), module_min = 3,
-  max_step = 5, AUCRank = 400)
+  max_step = 10, AUCRank = 400, nCores = 1)
 }
 \arguments{
 \item{Data}{gene*cell matrix or a seurat object.}
@@ -27,6 +27,8 @@ Choose one of 'cor', 'rho', 'phi', 'phs'}
 \item{max_step}{Integer number. The maximum step run in the community detect.}
 
 \item{AUCRank}{Integer number. The number of highly-expressed genes to include when computing AUCell.}
+
+\item{nCores}{Number of cores to use for computation.}
 }
 \value{
 a seurat object

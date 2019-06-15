@@ -13,6 +13,7 @@
 #' @param module_min Integer number. The minimum size of a module to be accepted.
 #' @param max_step Integer number. The maximum step run in the community detect.
 #' @param AUCRank Integer number. The number of highly-expressed genes to include when computing AUCell.
+#' @param nCores Number of cores to use for computation.
 #'
 #' @return a seurat object
 #' @export
@@ -22,7 +23,7 @@
 #' @examples
 R.SCORE <- function(Data, PPI = 'Biogrid', species = 9606, score_threshold = 600,
                   metric = c('cor','rho','phi','phs'),
-                  module_min = 3, max_step = 10, AUCRank = 400)
+                  module_min = 3, max_step = 10, AUCRank = 400, nCores = 1)
 {
   ## data processing
   if(class(Data) == 'matrix'){
@@ -44,11 +45,13 @@ R.SCORE <- function(Data, PPI = 'Biogrid', species = 9606, score_threshold = 600
   rm(PPI)
 
   Data_expr <- as.matrix(GetAssayData(Data))
+  Data_expr_scale <- as.matrix(GetAssayData(Data, slot = 'scale.data'))
   var_genes <- VariableFeatures(Data)
   Data_genes <- var_genes[var_genes %in% as.character(rownames(hs_network_matrix))]
 
   ## update the expression matrix
   Data_expr <- Data_expr[Data_genes,]
+  Data_expr_scale <- Data_expr_scale[Data_genes,]
 
   ## calculate the correlation coefficient or other metric
   metric <- metric[1]
@@ -109,9 +112,10 @@ R.SCORE <- function(Data, PPI = 'Biogrid', species = 9606, score_threshold = 600
   cat('module num: ',length(geneSets),'\n')
 
   ## calculate AUC scores
-  cells_rankings <- AUCell_buildRankings(Data_expr)
+  cells_rankings <- AUCell_buildRankings(Data_expr_scale, nCores = nCores)
   rm(Data_expr)
-  cells_AUC <- AUCell_calcAUC(geneSets, cells_rankings, aucMaxRank=AUCRank)
+  rm(Data_expr_scale)
+  cells_AUC <- AUCell_calcAUC(geneSets, cells_rankings, aucMaxRank=AUCRank, nCores = nCores)
   cells_AUC_matrix <- getAUC(cells_AUC)
 
   ## creater net-based seurat object
