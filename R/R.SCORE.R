@@ -41,38 +41,38 @@ R.SCORE <- function(Data, PPI = 'Biogrid', species = 9606, score_threshold = 600
   }else{
     stop("Provided 'PPI' not recognized")
   }
+  rm(PPI)
 
   Data_expr <- as.matrix(GetAssayData(Data))
-  Data_expr_scale <- as.matrix(GetAssayData(Data, slot = 'scale.data'))
-  Data_expr_counts <- as.matrix(GetAssayData(Data, slot = 'counts'))
   var_genes <- VariableFeatures(Data)
   Data_genes <- var_genes[var_genes %in% as.character(rownames(hs_network_matrix))]
 
   ## update the expression matrix
   Data_expr <- Data_expr[Data_genes,]
-  Data_expr_scale <- Data_expr_scale[Data_genes,]
-  Data_expr_counts <- Data_expr_counts[Data_genes,]
 
   ## calculate the correlation coefficient or other metric
   metric <- metric[1]
   if(metric == 'cor')
   {
-    Data_metric <- coop::pcor(t(Data_expr_scale))
+    Data_metric <- coop::tpcor(Data_expr)
     Data_metric[Data_metric < 0] <- 0
-  }else if(metric == 'rho')
-  {
-    Data_metric <- getMatrix(propr(t(Data_expr_counts),metric = 'rho'))
-  }else if(metric == 'phi')
-  {
-    Data_metric <- getMatrix(propr(t(Data_expr_counts),metric = 'phi'))
-  }else if(metric == 'phs')
-  {
-    Data_metric <- getMatrix(propr(t(Data_expr_counts),metric = 'phs'))
   }else{
-    stop("Provided 'metric' not recognized.")
+    Data_expr_counts <- as.matrix(GetAssayData(Data, slot = 'counts'))
+    Data_expr_counts <- Data_expr_counts[Data_genes,]
+    if(metric == 'rho')
+    {
+      Data_metric <- getMatrix(propr(t(Data_expr_counts),metric = 'rho'))
+    }else if(metric == 'phi')
+    {
+      Data_metric <- getMatrix(propr(t(Data_expr_counts),metric = 'phi'))
+    }else if(metric == 'phs')
+    {
+      Data_metric <- getMatrix(propr(t(Data_expr_counts),metric = 'phs'))
+    }else{
+      stop("Provided 'metric' not recognized.")
+    }
+    rm(Data_expr_counts)
   }
-  rm(Data_expr_scale)
-  rm(Data_expr_counts)
 
   ## construct weighted network
   hs_network_final <- hs_network_matrix[Data_genes,Data_genes]
