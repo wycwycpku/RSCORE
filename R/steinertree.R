@@ -172,7 +172,7 @@ steinertree_kb <- function (terminals, graph, color = T, weighted = T, optimize 
     r <- 1:length(paths)
     if(weighted == T){
       t <- sapply(r, function (r) sapply(paths[[r]][[1]], function(x)
-        sum(E(g)[get.edge.ids(g,x[floor(seq(1.5,length(x),0.5))])]$weight)))
+        sum(edge_attr(g, name = 'weight', index = get.edge.ids(g,x[floor(seq(1.5,length(x),0.5))])))))
     }
     else{
       t <- sapply(r, function (r) sapply(paths[[r]][[1]], length))
