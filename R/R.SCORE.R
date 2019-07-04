@@ -86,14 +86,14 @@ R.SCORE <- function(Data, PPI = 'Biogrid', species = 9606, score_threshold = 600
   rm(hs_network_matrix)
   rm(hs_network_final)
 
-  network_trim <- graph_from_adjacency_matrix(Data_network_final,weighted = TRUE)
+  network_trim <- igraph::graph_from_adjacency_matrix(Data_network_final,weighted = TRUE)
 
   ## network decomposition
   gene_sets_all <- list()
   run_label = c()
   for (rw_step in 1:max_step){
     set.seed(123)
-    network_cluster <- walktrap.community(network_trim,steps =rw_step)
+    network_cluster <- igraph::walktrap.community(network_trim,steps =rw_step)
     gene_sets_all <- c(gene_sets_all,communities(network_cluster))
     run_label <- c(run_label,rep(rw_step,length(communities(network_cluster))))
   }

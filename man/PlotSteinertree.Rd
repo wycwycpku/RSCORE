@@ -4,11 +4,14 @@
 \alias{PlotSteinertree}
 \title{Plot steiner tree}
 \usage{
-PlotSteinertree(object, ident = NULL, method = "sp", weighted = T,
-  onlysteiner = T, pagerank = T)
+PlotSteinertree(object, ident = NULL, nodes = NULL, method = "sp",
+  weighted = T, onlysteiner = T, typeof_node_size = c("pagerank",
+  "degree"), only_label_terminal = F, label_num = 20)
 }
 \arguments{
 \item{ident}{which class you want to show, default: all}
+
+\item{nodes}{the nodes you want to labeled in the Steiner tree}
 
 \item{method}{how to find steinertree, default is 'sp' (Shortest Path Based Approximation)
 'kb' (Kruskal's minimum spanning tree algorithm) also can be choosen. Be careful, 'kb' is very slow.}
@@ -17,7 +20,11 @@ PlotSteinertree(object, ident = NULL, method = "sp", weighted = T,
 
 \item{onlysteiner}{if it is TRUE, will only show the steiner tree, default TRUE}
 
-\item{pagerank}{if ture, the size of vertex is the pagerank value, default TRUE}
+\item{typeof_node_size}{'pagerank' or 'degree', former is default}
+
+\item{only_label_terminal}{default is F}
+
+\item{label_num}{number of nodes you want to label, default is 20}
 }
 \description{
 show the steiner tree of given clusters

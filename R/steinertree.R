@@ -48,7 +48,7 @@ steinertree_sp <- function (terminals, graph, color = T, weighted = T, optimize 
 
     r <- 1:length(paths)
     if(weighted == T){
-        t <- sapply(r, function (r) sapply(paths[[r]][[1]], function(x)
+      t <- sapply(r, function (r) sapply(paths[[r]][[1]], function(x)
         sum(edge_attr(g, name = 'weight', index = get.edge.ids(g,x[floor(seq(1.5,length(x),0.5))])))))
     }else{
       t <- sapply(r, function (r) sapply(paths[[r]][[1]], length))
@@ -94,11 +94,11 @@ steinertree_sp <- function (terminals, graph, color = T, weighted = T, optimize 
   if (optimize) {
     steinert <- minimum.spanning.tree(induced_subgraph(g, subtree))
     a   <- V(steinert)$color
-    b   <- degree(steinert, v = V(steinert), mode = c("all"))
+    b   <- igraph::degree(steinert, v = V(steinert), mode = c("all"))
     a1  <- match(a, "yellow")
     b1  <- match(b, "1")
     opt <- sapply(1:length(a1), function (r) a1[r] * b1[r])
-    new_g <- delete.vertices(steinert, grep(1, opt))
+    new_g <- igraph::delete.vertices(steinert, grep(1, opt))
     steinert <- new_g
   } else
     steinert <- induced_subgraph(g, subtree)
@@ -117,12 +117,12 @@ steinertree_sp <- function (terminals, graph, color = T, weighted = T, optimize 
   if (color) {
     if (attr_flag) {
       V(result[[1]])$name <- V(result[[1]])$realname
-      result[[1]] <- delete_vertex_attr(result[[1]], 'realname')
+      result[[1]] <- igraph::delete_vertex_attr(result[[1]], 'realname')
     }
   }
   if (attr_flag) {
     V(result[[length(result)]])$name <- V(result[[length(result)]])$realname
-    result[[length(result)]] <- delete_vertex_attr(result[[length(result)]], 'realname')
+    result[[length(result)]] <- igraph::delete_vertex_attr(result[[length(result)]], 'realname')
   }
 
   return(result)
@@ -229,11 +229,11 @@ steinertree_kb <- function (terminals, graph, color = T, weighted = T, optimize 
   if (optimize) {
     steinert <- minimum.spanning.tree(induced_subgraph(g, subtrees[[1]]))
     a   <- V(steinert)$color
-    b   <- degree(steinert, v = V(steinert), mode = c("all"))
+    b   <- igraph::degree(steinert, v = V(steinert), mode = c("all"))
     a1  <- match(a, "yellow")
     b1  <- match(b, "1")
     opt <- sapply(1:length(a1), function (r) a1[r] * b1[r] )
-    new_g <- delete.vertices(steinert, grep(1, opt))
+    new_g <- igraph::delete.vertices(steinert, grep(1, opt))
     steinert <- new_g
   } else
     steinert <- induced_subgraph(g, subtrees[[1]])
@@ -253,12 +253,12 @@ steinertree_kb <- function (terminals, graph, color = T, weighted = T, optimize 
   if (color) {
     if (attr_flag) {
       V(result[[1]])$name <- V(result[[1]])$realname
-      result[[1]] <- delete_vertex_attr(result[[1]], 'realname')
+      result[[1]] <- igraph::delete_vertex_attr(result[[1]], 'realname')
     }
   }
   if (attr_flag) {
     V(result[[length(result)]])$name <- V(result[[length(result)]])$realname
-    result[[length(result)]] <- delete_vertex_attr(result[[length(result)]], 'realname')
+    result[[length(result)]] <- igraph::delete_vertex_attr(result[[length(result)]], 'realname')
   }
 
   return(result)
