@@ -105,7 +105,9 @@ get_steiner_plot <- function(ig_obj, label_num = 20, name, typeof_node_size = c(
   if(typeof_node_size == 'degree'){
     pl <- pl + geom_point(aes_(x=~X1, y=~X2, size=~Degree, alpha=~Degree, color=~Hub))
   }else{
-    pl <- pl + geom_point(aes_(x=~X1, y=~X2, size=~Pagerank, alpha=~Pagerank, color=~Hub))
+    pl <- pl + geom_point(aes_(x=~X1, y=~X2, size=~Pagerank, alpha=~Pagerank, color=~Hub)) +
+      scale_alpha_continuous(breaks=c(1,2),labels=c('low','high')) +
+      scale_size_continuous(breaks = c(1,2),labels=c('low','high'))
   }
   return(pl)
 }
