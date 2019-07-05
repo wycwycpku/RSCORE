@@ -27,9 +27,11 @@ get_steiner_plot <- function(ig_obj, label_num = 20, name, typeof_node_size = c(
   net_obj <- intergraph::asNetwork(ig_obj)
   m <- network::as.matrix.network.adjacency(net_obj) # get sociomatrix
   # get coordinates from Fruchterman and Reingold's force-directed placement algorithm.
-  plotcord <- data.frame(sna::gplot.layout.fruchtermanreingold(m, NULL))
+  # plotcord <- data.frame(sna::gplot.layout.fruchtermanreingold(m, NULL))
   # or get it them from Kamada-Kawai's algorithm:
   # plotcord <- data.frame(sna::gplot.layout.kamadakawai(m, NULL))
+  plotcord <- data.frame(igraph::layout_nicely(ig_obj))
+
 
   colnames(plotcord) <- c("X1","X2")
   edglist <- network::as.matrix.network.edgelist(net_obj)
@@ -38,7 +40,7 @@ get_steiner_plot <- function(ig_obj, label_num = 20, name, typeof_node_size = c(
   plotcord$Degree <- network::get.vertex.attribute(net_obj, "degree")
   plotcord$Pagerank <- network::get.vertex.attribute(net_obj, "pagerank")
   plotcord[, "shouldLabel"] <- FALSE
-  plotcord[, "Hub"] <- "Others"
+  plotcord[, "Hub"] <- "Steiner genes"
   terminals_bool <- plotcord[,"vertex.names"] %in% terminals
   temp <- plotcord[which(terminals_bool),]
   typeof_node_size <- typeof_node_size[1]
@@ -81,15 +83,15 @@ get_steiner_plot <- function(ig_obj, label_num = 20, name, typeof_node_size = c(
   plotcord[which(plotcord[, "vertex.names"] %in% sel_vertex), "shouldLabel"] <- TRUE
 
   pl <- ggplot(plotcord)  +
-    geom_segment(data=edges, aes_(x=~X1, y=~Y1, xend=~X2, yend=~Y2),
-                 size = 0.5, alpha=0.5, colour="#DDDDDD") +
+    geom_curve(data=edges, aes_(x=~X1, y=~Y1, xend=~X2, yend=~Y2), curvature = 0.3,
+               size = 0.5, alpha=0.5, colour="#DDDDDD") +
     geom_label_repel(aes_(x=~X1, y=~X2, label=~vertex.names, color=~Hub),
                      box.padding=unit(1, "lines"),
                      data=function(x){x[x$shouldLabel, ]}) +
-    scale_colour_manual(values=c("Both" = "#FDB462",
-                                 "DEGs" = "#B3DE69",
-                                 "DAMGs" = "#80B1D3",
-                                 "Others" = "#D9D9D9")) +
+    scale_colour_manual(values=c("Both" = "#E41A1C",
+                                 "DAMGs" = "#4DAF4A",
+                                 "DEGs" = "#FF7F00",
+                                 "Steiner genes" = "#999999")) +
     labs(title=name) +
     ggplot2::theme_bw(base_size = 12, base_family = "") +
     ggplot2::theme(axis.text = ggplot2::element_blank(),

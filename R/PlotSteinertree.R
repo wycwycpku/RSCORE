@@ -60,9 +60,9 @@ PlotSteinertree <- function(object, ident = NULL, nodes = NULL, method = 'sp', w
     steiner_tree_sp <- steinertree(terminals = terminals, graph = network_trim, method= method, weighted = weighted)
 
     whichfig <- onlysteiner + 1
-    plots[[i]] <- get_steiner_plot(steiner_tree_sp[[whichfig]], label_num = label_num, name = i, typeof_node_size = typeof_node_size,
-                                   terminals = terminals, marker_genes = marker_genes, module_genes = module_genes,
-                                   nodes = nodes, only_label_terminal = only_label_terminal)
+    plots[[as.character(i)]] <- get_steiner_plot(steiner_tree_sp[[whichfig]], label_num = label_num, name = i, typeof_node_size = typeof_node_size,
+                                                 terminals = terminals, marker_genes = marker_genes, module_genes = module_genes,
+                                                 nodes = nodes, only_label_terminal = only_label_terminal)
 
   }
   return(plots)
