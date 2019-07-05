@@ -85,7 +85,7 @@ get_steiner_plot <- function(ig_obj, label_num = 20, name, typeof_node_size = c(
   pl <- ggplot(plotcord)  +
     geom_curve(data=edges, aes_(x=~X1, y=~Y1, xend=~X2, yend=~Y2), curvature = 0.3,
                size = 0.5, alpha=0.5, colour="#DDDDDD") +
-    geom_label_repel(aes_(x=~X1, y=~X2, label=~vertex.names, color=~Hub),
+    geom_label_repel(aes_(x=~X1, y=~X2, label=~vertex.names, color=~Hub),show.legend=F,
                      box.padding=unit(1, "lines"),
                      data=function(x){x[x$shouldLabel, ]}) +
     scale_colour_manual(values=c("Both" = "#E41A1C",
