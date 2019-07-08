@@ -68,8 +68,14 @@ get_steiner_plot <- function(ig_obj, label_num = 20, name, typeof_node_size = c(
     DEGs_bool <- plotcord[,"vertex.names"] %in% DEGs
     DAMGs_bool <- plotcord[,"vertex.names"] %in% DAMGs
     plotcord[which(Both_bool), "Hub"] <- "Both"
-    plotcord[which(DEGs_bool), "Hub"] <- "DEGs"
-    plotcord[which(DAMGs_bool), "Hub"] <- "DAMGs"
+    if(name != 'Steiner tree'){
+      plotcord[which(DEGs_bool), "Hub"] <- "DEGs"
+      plotcord[which(DAMGs_bool), "Hub"] <- "DAMGs"
+    }
+    else{
+      plotcord[which(DEGs_bool), "Hub"] <- "Gene Set1"
+      plotcord[which(DAMGs_bool), "Hub"] <- "Gene Set2"
+    }
   }
 
   if(is.null(nodes)){
@@ -91,6 +97,8 @@ get_steiner_plot <- function(ig_obj, label_num = 20, name, typeof_node_size = c(
     scale_colour_manual(values=c("Both" = "#E41A1C",
                                  "DAMGs" = "#4DAF4A",
                                  "DEGs" = "#FF7F00",
+                                 "Gene Set2" = "#4DAF4A",
+                                 "Gene Set1" = "#FF7F00",
                                  "Steiner genes" = "#999999")) +
     labs(title=name) +
     ggplot2::theme_bw(base_size = 12, base_family = "") +

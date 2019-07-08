@@ -23,7 +23,7 @@ This is an example of RSCORE. Data comes from NCBI GEO with accession GSE81861. 
 For your data, you can do it by yourself and finally provide a Seurat class object, or you can provide a clean matrix data and use our mat2seurat function.
 ```{r pretreatment}
 # change the directory to yours 
-RCA_count <- read.csv("../inst/extdata/GSE81861_Cell_Line_FPKM.csv", header=T, row.names = 1)
+RCA_count <- read.csv(system.file('extdata','GSE81861_Cell_Line_FPKM.csv',package = 'RSCORE'), header=T, row.names = 1)
 RCA_count <- log(RCA_count+1, 2)
 row_names <- strsplit(row.names(RCA_count), '_')
 gene_names <- c()
@@ -49,7 +49,7 @@ RCA_seurat <- FindVariableFeatures(object = RCA_seurat, selection.method = 'vst'
 PPI data is necessary. You can provide the adjacent matrix of PPI network by yourself,
 ```{r}
 # change the directory to yours 
-hs_network <- as.matrix(readRDS('../inst/extdata/hs_network_matrix_Biogrid-3.5.173.Rda'))
+hs_network <- as.matrix(readRDS(system.file('extdata','hs_network_matrix_Biogrid-3.5.173.Rda',package = 'RSCORE')))
 
 ```
 and then the parameter 'PPI' is just the matrix.
@@ -80,6 +80,6 @@ DimPlot(RCA_seurat, reduction = 'NetTSNE', pt.size = 3, group.by = 'orig.ident')
 
 You can also show steiner tree of given cluster  
 ```{r}
-PlotSteinertree(RCA_seurat, ident = 'IMR90')
+PlotSteinertree(RCA_seurat, ident = 'A549')
 ```
 

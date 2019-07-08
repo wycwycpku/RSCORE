@@ -16,8 +16,9 @@
 #' @export
 #'
 #' @examples
-PlotSteinertree <- function(object, ident = NULL, nodes = NULL, method = 'sp', weighted = T, onlysteiner = T,
-                            typeof_node_size = c('pagerank','degree'), only_label_terminal = F, label_num = 20)
+PlotSteinertree <- function(object, ident = NULL, geneset1 = NULL, geneset2 = NULL, nodes = NULL, method = 'sp',
+                            weighted = T, onlysteiner = T, typeof_node_size = c('pagerank','degree'),
+                            only_label_terminal = F, label_num = 20)
 {
   Data_corr <- object@misc$Data_net
   network_trim <- igraph::graph_from_adjacency_matrix(Data_corr, mode = 'undirected', weighted = T)
@@ -29,41 +30,45 @@ PlotSteinertree <- function(object, ident = NULL, nodes = NULL, method = 'sp', w
   genes_in_connected_set <- names(connected$membership[connected$membership == 1])
 
   if(is.null(ident)){
-    RNA.markers <- FindAllMarkers(object, assay = "RNA", only.pos = TRUE, min.pct = 0.25, logfc.threshold = 1)
-    Net.markers <- FindAllMarkers(object, assay = "Net", only.pos = TRUE, min.pct = 0.25, logfc.threshold = 0.1)
-    type <- levels(Idents(object))
-  }else{
-    RNA.markers <- FindMarkers(object, assay = "RNA", ident.1 = ident, only.pos = TRUE, min.pct = 0.25, logfc.threshold = 1)
-    Net.markers <- FindMarkers(object, assay = "Net", ident.1 = ident, only.pos = TRUE, min.pct = 0.25, logfc.threshold = 0.1)
-    type <- ident
-  }
-  plots <- list()
-  for(i in type){
-    #Select genes
-    if(is.null(ident)){
-      genes_in_select_markers <- rownames(RNA.markers[RNA.markers$cluster %in% i  & RNA.markers$p_val_adj < 0.01,])
-      modules_select <- rownames(Net.markers[Net.markers$cluster %in% i,])
+    if(is.null(geneset1) || is.null(geneset2)){
+      stop('You should provide the ident of one cluster or two set of genes.\n')
     }else{
-      genes_in_select_markers <- rownames(RNA.markers[RNA.markers$p_val_adj < 0.01,])
-      modules_select <- rownames(Net.markers)
+      gs1_genes <- intersect(geneset1, genes_in_connected_set)
+      gs2_genes <- intersect(geneset2, genes_in_connected_set)
+      if(length(gs1_genes) == 0){
+        stop('There is no gene of geneset1 in the network!\n')
+      }
+      if(length(gs2_genes) == 0){
+        stop('There is no gene of geneset2 in the network!\n')
+      }
     }
-    marker_genes <- genes_in_select_markers[genes_in_select_markers %in% genes_in_connected_set]
-    modules_name_all <- object@misc$geneSets
-    genes_in_select_modules <- unique(rownames(table(unlist(modules_name_all[modules_select]))))
-    module_genes <- genes_in_select_modules[genes_in_select_modules %in% genes_in_connected_set]
+    name <- 'Steiner tree'
+  }else{
+    if(!is.null(geneset1) || !is.null(geneset2)){
+      warning('You have provided the ident of cluster, then the geneset is unnecessary.\n')
+    }
+    SCORE_DEGs_list <- Find_Markers(object = object, assay = 'RNA', FoldChange = 1.5)
+    SCORE_DAMs_list <- Find_Markers(object = object, assay = 'Net', FoldChange = 1.5)
 
-    both_genes <- intersect(marker_genes, module_genes)
-    terminals <- union(marker_genes, module_genes)
-    #terminals <- union(terminals, nodes)
-
-    cat('calculate tree\n')
-    steiner_tree_sp <- steinertree(terminals = terminals, graph = network_trim, method= method, weighted = weighted)
-
-    whichfig <- onlysteiner + 1
-    plots[[as.character(i)]] <- get_steiner_plot(steiner_tree_sp[[whichfig]], label_num = label_num, name = i, typeof_node_size = typeof_node_size,
-                                                 terminals = terminals, marker_genes = marker_genes, module_genes = module_genes,
-                                                 nodes = nodes, only_label_terminal = only_label_terminal)
-
+    DEGs <- SCORE_DEGs_list$Markers[SCORE_DEGs_list$Markers$Cluster==ident,]$Marker
+    DAMs <- SCORE_DAMs_list$Markers[SCORE_DAMs_list$Markers$Cluster==ident,]$Marker
+    DAMGs <- unique(rownames(table(unlist(object@misc$geneSets[DAMs]))))
+    gs1_genes <- DEGs[DEGs %in% genes_in_connected_set]
+    gs2_genes <- DAMGs[DAMGs %in% genes_in_connected_set]
+    name <- ident
   }
-  return(plots)
+  both_genes <- intersect(gs1_genes, gs2_genes)
+  terminals <- union(gs1_genes, gs2_genes)
+
+  cat('calculate tree\n')
+  set.seed(100)
+  steiner_tree_sp <- steinertree(terminals = terminals, graph = network_trim, method= method, weighted = weighted)
+
+  whichfig <- onlysteiner + 1
+  st_plot <- get_steiner_plot(steiner_tree_sp[[whichfig]], label_num = label_num, name = name,
+                              typeof_node_size = typeof_node_size, terminals = terminals,
+                              marker_genes = gs1_genes, module_genes = gs2_genes,
+                              nodes = nodes, only_label_terminal = only_label_terminal)
+
+  return(st_plot)
 }

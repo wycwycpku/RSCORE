@@ -4,9 +4,10 @@
 \alias{PlotSteinertree}
 \title{Plot steiner tree}
 \usage{
-PlotSteinertree(object, ident = NULL, nodes = NULL, method = "sp",
-  weighted = T, onlysteiner = T, typeof_node_size = c("pagerank",
-  "degree"), only_label_terminal = F, label_num = 20)
+PlotSteinertree(object, ident = NULL, geneset1 = NULL,
+  geneset2 = NULL, nodes = NULL, method = "sp", weighted = T,
+  onlysteiner = T, typeof_node_size = c("pagerank", "degree"),
+  only_label_terminal = F, label_num = 20)
 }
 \arguments{
 \item{ident}{which class you want to show, default: all}

@@ -121,7 +121,7 @@ R.SCORE <- function(Data, PPI = 'Biogrid', species = 9606, score_threshold = 600
   ## creater net-based seurat object
   Data[["Net"]] <- CreateAssayObject(counts = as.matrix(cells_AUC_matrix))
   Misc(Data, slot = 'geneSets') <- geneSets
-  Misc(Data, slot = 'Data_network') <- Data_network_final
+  Misc(Data, slot = 'Data_net') <- Data_network_final
   DefaultAssay(Data) <- "Net"
   Data <- ScaleData(Data, assay = "Net")
 
