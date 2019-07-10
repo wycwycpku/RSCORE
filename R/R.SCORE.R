@@ -17,7 +17,7 @@
 #'
 #' @return a seurat object
 #' @export
-#' @import Seurat AUCell igraph propr
+#' @import Seurat AUCell igraph propr doMC doRNG
 #' @importFrom coop pcor
 #'
 #' @examples

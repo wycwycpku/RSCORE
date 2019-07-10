@@ -1,7 +1,18 @@
 # RSCORE
 RSCORE is an R package to explore single-cell RNA-seq data with the view of molecular networks.
 
-You can install RSCORE:
+To run RSCORE, you need to install some extra dependencies:
+```
+if (!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocManager")
+## Required
+BiocManager::install(c("Seurat", "AUCell", "STRINGdb", "propr", "coop", "network"))
+## To support paralell execution (not available in Windows)
+BiocManager::install(c("doMC", "doRNG"))
+## To get marker genes quickly
+BiocManager::install("mahmoudibrahim/genesorteR") 
+```
+
+Then you can install RSCORE:
 ```
 if (!requireNamespace("devtools", quietly = TRUE)) install.packages("devtools")
 devtools::install_github("wycwycpku/RSCORE")
