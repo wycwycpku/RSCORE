@@ -6,7 +6,7 @@ To run RSCORE, you need to install some extra dependencies:
 if (!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocManager")
 ## Required
 BiocManager::install(c("Seurat", "AUCell", "STRINGdb", "propr", "coop", "network"))
-## To support paralell execution (not available in Windows)
+## To support parallel execution
 BiocManager::install(c("doMC", "doRNG"))
 ## To get marker genes quickly
 BiocManager::install("mahmoudibrahim/genesorteR") 
