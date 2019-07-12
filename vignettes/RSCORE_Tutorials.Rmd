@@ -18,12 +18,16 @@ knitr::opts_chunk$set(
 library(RSCORE)
 library(Seurat)
 library(igraph)
+library(R.utils)
 ```
 This is an example of RSCORE. Data comes from NCBI GEO with accession GSE81861. After you download the raw data, we have to do pretreatment.
 For your data, you can do it by yourself and finally provide a Seurat class object, or you can provide a clean matrix data and use our mat2seurat function.
 ```{r pretreatment}
-# change the directory to yours 
-RCA_count <- read.csv(system.file('extdata','GSE81861_Cell_Line_FPKM.csv',package = 'RSCORE'), header=T, row.names = 1)
+# change the directory to yours
+# You need to download the data firstly.
+# download.file('https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE81861&format=file&file=GSE81861%5FCell%5FLine%5FFPKM%2Ecsv%2Egz', destfile = 'RCA_FPKM.csv.gz')
+# gunzip('RCA_FPKM.csv.gz', 'RCA_FPKM.csv')
+RCA_count <- read.csv('RCA_FPKM.csv', header=T, row.names = 1)
 RCA_count <- log(RCA_count+1, 2)
 row_names <- strsplit(row.names(RCA_count), '_')
 gene_names <- c()
@@ -42,7 +46,7 @@ RCA_seurat <- CreateSeuratObject(counts = RCA_count, min.cells = 10, min.feature
 We also suggest doing normalization and feature selection. Although we have given some default parameters, it depends on your data specifically.
 ```{r, message=FALSE, warning=FALSE}
 RCA_seurat <- ScaleData(object = RCA_seurat)  
-RCA_seurat <- FindVariableFeatures(object = RCA_seurat, selection.method = 'vst', nfeatures = 5000)
+RCA_seurat <- FindVariableFeatures(object = RCA_seurat, selection.method = 'vst', nfeatures = 8000)
 
 ```
 
@@ -53,7 +57,7 @@ hs_network <- as.matrix(readRDS(system.file('extdata','hs_network_matrix_Biogrid
 
 ```
 and then the parameter 'PPI' is just the matrix.
-```{r, message=FALSE, warning=FALSE}
+```{r, message=FALSE, warning=FALSE, fig.show='hide'}
 RCA_seurat <- R.SCORE(Data = RCA_seurat, PPI = hs_network)
 
 ```
@@ -68,7 +72,7 @@ Or you can get it by our functions. Then you have to set the parameter 'PPI' as 
 
 The result is saved in 'Net' assay of RCA_seurat (it has been set as default assay).
 You can plot the tsne 
-```{r}
+```{r, fig.height=4, fig.width=6}
 VariableFeatures(RCA_seurat) <- rownames(RCA_seurat)
 RCA_seurat <- RunPCA(RCA_seurat, features = rownames(RCA_seurat), npcs = 30, reduction.name = "NetPCA",
                      reduction.key = "NetPCA_", verbose = F)
@@ -77,9 +81,38 @@ RCA_seurat <- RunTSNE(RCA_seurat, reduction = "NetPCA", dims = 1:10,
 DimPlot(RCA_seurat, reduction = 'NetTSNE', pt.size = 3, group.by = 'orig.ident')
 
 ```
+```{r, fig.height=4, fig.width=6}
+library(dplyr)
+library(genesorteR)
+SCORE_DEGs_list <- Find_Markers(object = RCA_seurat, assay = 'RNA', FoldChange = 1.5)
+
+SCORE_DAMs_list <- Find_Markers(object = RCA_seurat, assay = 'Net', FoldChange = 1.5)
+
+#Select the top n markers of each cluster
+top10_DEGs <- SCORE_DEGs_list$Markers %>% group_by(Cluster) %>% top_n(n = 10, wt = Gene.Score)
+top10_DAMs <- SCORE_DAMs_list$Markers %>% group_by(Cluster) %>% top_n(n = 10, wt = Gene.Score)
+
+
+#genesorteR plotMarkerHeat function
+plotMarkerHeat(exp = SCORE_DEGs_list$GeneSort$inputMat,
+               classes = SCORE_DEGs_list$GeneSort$inputClass,
+               markers = top10_DEGs$Marker,
+               clusterGenes = FALSE,
+               averageCells = 1)
+
+plotMarkerHeat(exp = SCORE_DAMs_list$GeneSort$inputMat,
+               classes = SCORE_DAMs_list$GeneSort$inputClass,
+               markers = top10_DAMs$Marker,
+               clusterGenes = FALSE,
+               averageCells = 1)
+
+```
+
 
 You can also show steiner tree of given cluster  
-```{r}
+```{r, fig.height=4, fig.width=6}
 PlotSteinertree(RCA_seurat, ident = 'A549')
 ```
+
+
 
