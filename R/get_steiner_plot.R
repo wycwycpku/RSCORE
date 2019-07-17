@@ -12,7 +12,7 @@
 #'
 #' @return
 #'
-#' @import ggrepel ggplot2
+#' @import ggrepel ggplot2 intergraph
 #' @importFrom network as.matrix.network.adjacency as.matrix.network.edgelist get.vertex.attribute
 #' @examples
 get_steiner_plot <- function(ig_obj, label_num = 20, name, typeof_node_size = c('pagerank','degree'), only_label_terminal = T,

@@ -4,9 +4,12 @@
 \alias{getPPI_Biogrid}
 \title{get PPI from Biogrid}
 \usage{
-getPPI_Biogrid(object = NULL, species = 9606)
+getPPI_Biogrid(object = NULL, biogrid_version = "3.5.174",
+  species = 9606)
 }
 \arguments{
+\item{biogrid_version}{Version of BioGRID, such as '3.5.174'}
+
 \item{species}{NCBI taxonomy identifier of the species to query for homologs, default is 9606(Homosapiens)}
 }
 \value{
