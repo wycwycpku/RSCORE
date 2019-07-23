@@ -1,8 +1,11 @@
 # RSCORE
-RSCORE is an R package to explore single-cell RNA-seq data with the view of molecular networks. The method is outlined in our manuscript
-**Enhancing single-cell cellular state inference by incorporating molecular network features**
+RSCORE is an R package to explore single-cell RNA-seq data with the view of molecular networks. The method is outlined in our manuscript 
+
+**Enhancing single-cell cellular state inference by incorporating molecular network features**.
+
 The preprint version is available on [bioRxiv](https://doi.org/10.1101/699959). 
 
+## Install
 To run RSCORE, you need to install some extra dependencies:
 ```
 if (!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocManager")
@@ -25,5 +28,12 @@ if you want to build vignettes, you need to add an option
 ```
 devtools::install_github("wycwycpku/RSCORE", build_opts = NULL)
 ```
+
+## Tutorial
 More details and tutorials can be found at:
 [Introduction and Tutorials](https://github.com/wycwycpku/RSCORE/blob/master/vignettes/RSCORE_Tutorials.pdf)
+
+## News
+2019/07/23:
+	- Add GO enrichment function.
+	- Correct some bugs.
