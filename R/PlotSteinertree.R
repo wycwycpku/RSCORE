@@ -8,10 +8,13 @@
 #' @param onlysteiner if it is TRUE, will only show the steiner tree, default TRUE
 #' @param method how to find steinertree, default is 'sp' (Shortest Path Based Approximation)
 #'               'kb' (Kruskal's minimum spanning tree algorithm) also can be choosen. Be careful, 'kb' is very slow.
-#' @param nodes the nodes you want to labeled in the Steiner tree
+#' @param nodes the nodes you want to labeled in the Steiner tree, if it is NULL (default), see 'label_num'
 #' @param typeof_node_size 'pagerank' or 'degree', former is default
 #' @param only_label_terminal default is F
-#' @param label_num number of nodes you want to label, default is 20
+#' @param geneset1 If ident == NULL, then you should provide two set of genes to compare
+#' @param geneset2 same to geneset1
+#' @param label_num If nodes == NULL, the number of nodes you want to label, default is 20
+#'
 #' @return
 #' @export
 #'
@@ -20,7 +23,7 @@ PlotSteinertree <- function(object, ident = NULL, geneset1 = NULL, geneset2 = NU
                             weighted = T, onlysteiner = T, typeof_node_size = c('pagerank','degree'),
                             only_label_terminal = F, label_num = 20)
 {
-  Data_corr <- object@misc$Data_net
+  Data_corr <- as.matrix(object@misc$Data_net)
   network_trim <- igraph::graph_from_adjacency_matrix(Data_corr, mode = 'undirected', weighted = T)
   Data_dist <- 1/(Data_corr + 1e-3)
 
@@ -65,10 +68,12 @@ PlotSteinertree <- function(object, ident = NULL, geneset1 = NULL, geneset2 = NU
   steiner_tree_sp <- steinertree(terminals = terminals, graph = network_trim, method= method, weighted = weighted)
 
   whichfig <- onlysteiner + 1
-  st_plot <- get_steiner_plot(steiner_tree_sp[[whichfig]], label_num = label_num, name = name,
-                              typeof_node_size = typeof_node_size, terminals = terminals,
-                              marker_genes = gs1_genes, module_genes = gs2_genes,
-                              nodes = nodes, only_label_terminal = only_label_terminal)
-
-  return(st_plot)
+  pl <- get_steiner_plot(steiner_tree_sp[[whichfig]], label_num = label_num, name = name,
+                         typeof_node_size = typeof_node_size, terminals = terminals,
+                         marker_genes = gs1_genes, module_genes = gs2_genes,
+                         nodes = nodes, only_label_terminal = only_label_terminal)
+  st_res <- list()
+  st_res$tree <- steiner_tree_sp[[whichfig]]
+  st_res$plot <- pl
+  return(st_res)
 }

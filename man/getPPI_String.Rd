@@ -5,7 +5,7 @@
 \title{get PPI from String}
 \usage{
 getPPI_String(object, version = "10", species = 9606,
-  score_threshold = 600)
+  score_threshold = 600, save = FALSE)
 }
 \arguments{
 \item{object}{an Seurat object which contains the expression matrix}
@@ -15,6 +15,8 @@ getPPI_String(object, version = "10", species = 9606,
 \item{species}{NCBI taxonomy identifier of the species to query for homologs, default is 9606(Homosapiens)}
 
 \item{score_threshold}{threshold on the score of the interaction, default is 600}
+
+\item{save}{whether save the result as a Rdata file, default is FALSE}
 }
 \value{
 PPI matrix

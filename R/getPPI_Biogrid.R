@@ -4,15 +4,16 @@
 #'
 #' @param object
 #' @param species NCBI taxonomy identifier of the species to query for homologs, default is 9606(Homosapiens)
-#' @param biogrid_version Version of BioGRID, such as '3.5.174'
+#' @param version Version of BioGRID, such as '3.5.174'
+#' @param save whether save the result as a Rdata file, default is FALSE
 #'
 #' @return PPI matrix
 #' @export
 #'
 #' @examples
-getPPI_Biogrid <- function(object = NULL, biogrid_version='3.5.174', species = 9606)
+getPPI_Biogrid <- function(object = NULL, version='3.5.174', species = 9606, save = FALSE)
 {
-  dbFiles <- paste('https://downloads.thebiogrid.org/Download/BioGRID/Release-Archive/BIOGRID-',biogrid_version,'/BIOGRID-ALL-',biogrid_version,'.tab2.zip',sep="")
+  dbFiles <- paste('https://downloads.thebiogrid.org/Download/BioGRID/Release-Archive/BIOGRID-',version,'/BIOGRID-ALL-',version,'.tab2.zip',sep="")
   if(!file.exists(sub(pattern = 'zip', replacement = 'txt', x = basename(dbFiles))))
   {
     if(!file.exists(basename(dbFiles)))
@@ -34,8 +35,10 @@ getPPI_Biogrid <- function(object = NULL, biogrid_version='3.5.174', species = 9
   links <- PPI[,c('Official.Symbol.Interactor.A','Official.Symbol.Interactor.B')]
   net <- graph_from_data_frame(d = links,vertices = nodes,directed = FALSE)
   net <- igraph::simplify(net)
-  saveRDS(as_adj(net),paste('hs_ppi_matrix_BioGRID-',biogrid_version,'.Rda',sep=""))
-  file.remove(paste('BIOGRID-ALL-',biogrid_version,'.tab2.txt',sep=""))
-  file.remove(paste('BIOGRID-ALL-',biogrid_version,'.tab2.zip',sep=""))
+  if(save){
+    saveRDS(as_adj(net),paste(species,'_ppi_matrix_BioGRID-',version,'.Rda',sep=""))
+  }
+  file.remove(paste('BIOGRID-ALL-',version,'.tab2.txt',sep=""))
+  file.remove(paste('BIOGRID-ALL-',version,'.tab2.zip',sep=""))
   return(as_adj(net))
 }

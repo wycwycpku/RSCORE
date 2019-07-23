@@ -12,7 +12,11 @@ PlotSteinertree(object, ident = NULL, geneset1 = NULL,
 \arguments{
 \item{ident}{which class you want to show, default: all}
 
-\item{nodes}{the nodes you want to labeled in the Steiner tree}
+\item{geneset1}{If ident == NULL, then you should provide two set of genes to compare}
+
+\item{geneset2}{same to geneset1}
+
+\item{nodes}{the nodes you want to labeled in the Steiner tree, if it is NULL (default), see 'label_num'}
 
 \item{method}{how to find steinertree, default is 'sp' (Shortest Path Based Approximation)
 'kb' (Kruskal's minimum spanning tree algorithm) also can be choosen. Be careful, 'kb' is very slow.}
@@ -25,7 +29,7 @@ PlotSteinertree(object, ident = NULL, geneset1 = NULL,
 
 \item{only_label_terminal}{default is F}
 
-\item{label_num}{number of nodes you want to label, default is 20}
+\item{label_num}{If nodes == NULL, the number of nodes you want to label, default is 20}
 }
 \description{
 show the steiner tree of given clusters

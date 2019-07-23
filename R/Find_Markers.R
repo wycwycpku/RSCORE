@@ -46,6 +46,7 @@ Find_Markers <- function(object, assay = NULL, binarizeMethod = "median", FoldCh
       }else{
         temp_fc <- mean(temp_cluster_mtx)/mean(temp_other_mtx)
         temp_gene_sort <- temp_gene
+        temp_fc_filter <- temp_fc[temp_fc >= FoldChange]
       }
 
       if(!is.null(temp_gene_sort)){

@@ -33,7 +33,7 @@ R.SCORE <- function(Data, PPI = 'Biogrid', species = 9606, score_threshold = 600
   }
 
   ## get PPI network
-  if(class(PPI) == 'matrix'){
+  if(class(PPI) %in% c('matrix','dgCMatrix')){
     hs_network_matrix <- PPI
   }else if(PPI == 'String'){
     hs_network_matrix <- getPPI_String(Data, species = species, score_threshold = score_threshold)
@@ -46,7 +46,13 @@ R.SCORE <- function(Data, PPI = 'Biogrid', species = 9606, score_threshold = 600
 
   Data_expr <- as.matrix(GetAssayData(Data))
   Data_expr_scale <- as.matrix(GetAssayData(Data, slot = 'scale.data'))
+  if(length(Data_expr_scale) == 0){
+    stop("The Seurat object has not been scaled!")
+  }
   var_genes <- VariableFeatures(Data)
+  if(length(var_genes) == 0){
+    stop("No variable features!")
+  }
   Data_genes <- var_genes[var_genes %in% as.character(rownames(hs_network_matrix))]
 
   ## update the expression matrix
