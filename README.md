@@ -2,7 +2,6 @@
 RSCORE is an R package to explore single-cell RNA-seq data with the view of molecular networks. The method is outlined in our manuscript 
 
 **Enhancing single-cell cellular state inference by incorporating molecular network features**
-
 *Ji Dong, Peijie Zhou, Yichong Wu, Wendong Wang, Yidong Chen, Xin Zhou, Haoling Xie, Jiansen Lu, Xiannian Zhang, Lu Wen, Wei Fu, Tiejun Li, Fuchou Tang*.
 
 The preprint version is available on [bioRxiv](https://doi.org/10.1101/699959). 
