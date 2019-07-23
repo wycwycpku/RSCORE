@@ -35,5 +35,5 @@ More details and tutorials can be found at:
 
 ## News
 2019/07/23:
-	- Add GO enrichment function.
-	- Correct some bugs.
+-	Add GO enrichment function.
+-	Correct some bugs.
