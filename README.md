@@ -12,7 +12,8 @@ if (!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocMana
 ## Required
 BiocManager::install(c("Seurat", "AUCell", "STRINGdb", "propr", "coop", "network"))
 ## To support parallel execution
-BiocManager::install(c("doMC", "doRNG"))
+BiocManager::install("doRNG")
+install.packages("doMC", repos="http://R-Forge.R-project.org")
 ## To get marker genes quickly
 BiocManager::install("mahmoudibrahim/genesorteR") 
 ## To do GO enrichment
