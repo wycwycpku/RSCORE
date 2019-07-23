@@ -33,7 +33,7 @@ devtools::install_github("wycwycpku/RSCORE", build_opts = NULL)
 ```
 
 ## Tutorial
-[Introduction and Tutorials](https://github.com/wycwycpku/RSCORE/blob/master/vignettes/RSCORE_Tutorials.pdf)
+For more details and basic usage see [Introduction and Tutorials](https://github.com/wycwycpku/RSCORE/blob/master/vignettes/RSCORE_Tutorials.pdf)
 
 ## News
 2019/07/23:
