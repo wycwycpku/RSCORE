@@ -4,12 +4,13 @@
 \alias{get_enrich_plot}
 \title{GO enrichment of Steiner tree}
 \usage{
-get_enrich_plot(st_res, group)
+get_enrich_plot(st_res, group = NULL)
 }
 \arguments{
 \item{st_res}{result of cut_steiner_tree (or you can add group information manually)}
 
-\item{group}{the group of genes you want to do GO enrichment}
+\item{group}{the group of genes you want to do GO enrichment, if it is NULL (default), then do GO enrichment for
+all the groups}
 }
 \value{
 a list with enrich_res and plot

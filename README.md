@@ -7,6 +7,7 @@ RSCORE is an R package to explore single-cell RNA-seq data with the view of mole
 
 The preprint version is available on [bioRxiv](https://doi.org/10.1101/699959). 
 
+![](/home/wyc/Documents/doctor/research/SingleCell/doc/Figure_1.jpg) 
 ## Install
 To run RSCORE, you need to install some extra dependencies:
 ```
@@ -33,7 +34,9 @@ devtools::install_github("wycwycpku/RSCORE", build_opts = NULL)
 ```
 
 ## Tutorial
-For more details and basic usage see [Introduction and Tutorials](https://github.com/wycwycpku/RSCORE/blob/master/vignettes/RSCORE_Tutorials.pdf)
+For more details and basic usage see following tutorials
+1.	[Single cells from different cell lines](https://github.com/wycwycpku/RSCORE/blob/master/vignettes/RSCORE_Tutorials.pdf)
+2.	[Human embryonic cell altas (HECA)](https://github.com/zorrodong/HECA)
 
 ## News
 2019/07/23:

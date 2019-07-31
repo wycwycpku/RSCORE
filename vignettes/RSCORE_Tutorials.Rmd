@@ -129,8 +129,14 @@ First you need to divide the Steiner tree into several groups,
 st_res <- cut_steiner_tree(st_res, k = 7)
 ```
 
-then you can do GO enrichment analysis of specified group of genes
-```{r, message=FALSE, warning=FALSE, fig.height=6, fig.width=10}
+then you can do GO enrichment analysis of all the groups 
+```{r, message=FALSE, warning=FALSE, fig.height=8, fig.width=12}
+en_res_all <- get_enrich_plot(st_res)
+print(en_res_all$plot)
+```
+
+or a specified group of genes
+```{r, message=FALSE, warning=FALSE, fig.height=6, fig.width=12}
 en_res <- get_enrich_plot(st_res, group = 1)
 print(en_res$plot)
 ```
