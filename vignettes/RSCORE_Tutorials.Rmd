@@ -58,9 +58,9 @@ hs_network <- as.matrix(readRDS(system.file('extdata','9606_ppi_matrix_BioGRID-3
 ```
 or you can get it by our functions. Then you have to set the parameter 'PPI' as 'String' or 'Biogrid'. This means we will download PPI data from STRING or BioGRID (It will cost some time, depends on your Internet speed). Both of these two choices should give the species (default is 9606, Homosapiens). 
 ```{r}
-# hs_network <- getPPI_String(Data = RCA_seurat, species = 9606, version = '10')
+# hs_network <- getPPI_String(object = RCA_seurat, species = 9606, version = '10')
 # or
-# hs_network <- getPPI_Biogrid(Data = RCA_seurat, species = 9606, version = '3.5.173')
+# hs_network <- getPPI_Biogrid(object = RCA_seurat, species = 9606, version = '3.5.173')
 
 ```
 
