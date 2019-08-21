@@ -13,7 +13,7 @@ To run RSCORE, you need to install some extra dependencies:
 ```
 if (!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocManager")
 ## Required
-BiocManager::install(c("Seurat", "AUCell", "STRINGdb", "propr", "coop", "network"))
+BiocManager::install(c("Seurat", "AUCell", "STRINGdb", "propr", "coop", "network","intergraph"))
 ## To support parallel execution
 BiocManager::install("doRNG")
 install.packages("doMC", repos="http://R-Forge.R-project.org")
