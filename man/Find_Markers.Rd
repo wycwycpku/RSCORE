@@ -2,7 +2,7 @@
 % Please edit documentation in R/Find_Markers.R
 \name{Find_Markers}
 \alias{Find_Markers}
-\title{Title}
+\title{Find expression markers for all identity classes}
 \usage{
 Find_Markers(object, assay = NULL, binarizeMethod = "median",
   FoldChange = 2, p.adj = 0.05, cores = 1)
@@ -21,5 +21,5 @@ Find_Markers(object, assay = NULL, binarizeMethod = "median",
 \item{cores}{default is 1}
 }
 \description{
-Title
+Find expression markers for all identity classes
 }

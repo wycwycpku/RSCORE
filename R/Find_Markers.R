@@ -1,4 +1,6 @@
-#' Title
+#' Find expression markers for all identity classes
+#'
+#' Find expression markers for all identity classes
 #'
 #' @param object Seurat object
 #' @param assay assay of the object, default is the default assay

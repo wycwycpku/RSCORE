@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_steiner_plot.R
 \name{get_steiner_plot}
 \alias{get_steiner_plot}
-\title{Title}
+\title{Get the picture of Steiner tree}
 \usage{
 get_steiner_plot(ig_obj, label_num = 20, name,
   typeof_node_size = c("pagerank", "degree"), only_label_terminal = T,
@@ -28,8 +28,8 @@ get_steiner_plot(ig_obj, label_num = 20, name,
 \item{nodes}{the nodes you want to labeled in the Steiner tree}
 }
 \value{
-
+ggplot object
 }
 \description{
-Title
+Get the picture of Steiner tree
 }

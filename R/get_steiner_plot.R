@@ -1,4 +1,6 @@
-#' Title
+#' Get the picture of Steiner tree
+#'
+#' Get the picture of Steiner tree
 #'
 #' @param ig_obj the Steiner tree, an igraph object
 #' @param label_num number of nodes you want to label, default is 20
@@ -10,7 +12,7 @@
 #' @param module_genes module_genes of the Steiner tree
 #' @param nodes the nodes you want to labeled in the Steiner tree
 #'
-#' @return
+#' @return ggplot object
 #'
 #' @import ggrepel ggplot2 intergraph
 #' @importFrom network as.matrix.network.adjacency as.matrix.network.edgelist get.vertex.attribute
