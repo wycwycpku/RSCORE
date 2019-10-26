@@ -2,15 +2,13 @@
 % Please edit documentation in R/getPPI_String.R
 \name{getPPI_String}
 \alias{getPPI_String}
-\title{get PPI from String}
+\title{get PPI from STRING 11.0}
 \usage{
-getPPI_String(object, version = "10", species = 9606,
-  score_threshold = 600, save = FALSE)
+getPPI_String(object = NULL, species = 9606, score_threshold = 600,
+  save = FALSE)
 }
 \arguments{
 \item{object}{an Seurat object which contains the expression matrix}
-
-\item{version}{String version}
 
 \item{species}{NCBI taxonomy identifier of the species to query for homologs, default is 9606(Homosapiens)}
 
@@ -22,5 +20,5 @@ getPPI_String(object, version = "10", species = 9606,
 PPI matrix
 }
 \description{
-get PPI from String
+get PPI from STRING 11.0
 }

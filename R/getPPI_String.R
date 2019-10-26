@@ -1,9 +1,8 @@
-#' get PPI from String
+#' get PPI from STRING 11.0
 #'
-#' get PPI from String
+#' get PPI from STRING 11.0
 #'
 #' @param object an Seurat object which contains the expression matrix
-#' @param version String version
 #' @param species NCBI taxonomy identifier of the species to query for homologs, default is 9606(Homosapiens)
 #' @param score_threshold threshold on the score of the interaction, default is 600
 #' @param save whether save the result as a Rdata file, default is FALSE
@@ -13,30 +12,53 @@
 #' @export
 #'
 #' @examples
-getPPI_String <- function(object, version = '10', species = 9606, score_threshold = 600, save = FALSE)
+getPPI_String <- function(object = NULL, species = 9606, score_threshold = 600, save = FALSE)
 {
-  string_db <- STRINGdb$new(version = version, species = species, score_threshold = score_threshold, input_directory = '')
-
-  Data_gene <- as.data.frame(rownames(object))
-  colnames(Data_gene)[1] <- 'geneid'
-  Data_gene$geneid_backup <- Data_gene$geneid
-  Data_gene <- string_db$map(Data_gene, 'geneid', removeUnmappedRows = T)
-  Data_gene <- as.data.frame(unique(as.data.table(Data_gene), by='STRING_id'))
-  Data_gene <- as.data.frame(unique(as.data.table(Data_gene), by='geneid_backup'))
-  stringid <- Data_gene[,'STRING_id']
-
-  net <- string_db$get_graph()
-  net_adj <- as_adj(net)
-
-  rowid <- stringid[stringid %in% rownames(net_adj)]
-  genename <- Data_gene[stringid %in% rownames(net_adj),'geneid_backup']
-  net_adj <- net_adj[rowid,rowid]
-  rownames(net_adj) <- genename
-  colnames(net_adj) <- genename
-
-  if(save){
-    saveRDS(net_adj, paste(species,'_ppi_matrix_STRING-',version,'.Rda',sep=""))
+  linkFiles <- paste('https://stringdb-static.org/download/protein.links.v11.0/', species, '.protein.links.v11.0.txt.gz', sep="")
+  if(!file.exists(sub(pattern = '.gz', replacement = '', x = basename(linkFiles))))
+  {
+    if(!file.exists(basename(linkFiles)))
+      download.file(linkFiles, destfile = basename(linkFiles))
+    gf <- gzfile(basename(linkFiles), 'rt')
   }
+  PPI <- read.table(gf, header = T, sep = '')
+  close(gf)
 
-  return(net_adj)
+  infoFiles <- paste('https://stringdb-static.org/download/protein.info.v11.0/', species, '.protein.info.v11.0.txt.gz', sep = '')
+  if(!file.exists(sub(pattern = '.gz', replacement = '', x = basename(infoFiles))))
+  {
+    if(!file.exists(basename(infoFiles)))
+      download.file(infoFiles, destfile = basename(infoFiles))
+    gf <- gzfile(basename(infoFiles), 'rt')
+  }
+  Pinfo <- read.table(gf, header = T, sep = '\t', colClasses = c('character','character','NULL','NULL'), quote = '', row.names = 1)
+  close(gf)
+
+  PPI <- subset(PPI, combined_score > score_threshold)
+  ENSP1 <- levels(PPI[,1])
+  levels(PPI[,1]) <- toupper(Pinfo[ENSP1,])
+  ENSP2 <- levels(PPI[,2])
+  levels(PPI[,2]) <- toupper(Pinfo[ENSP2,])
+
+  if(!is.null(object))
+  {
+    gene_data <- rownames(object)
+    gene_data_upper <- toupper(gene_data)
+    gene_data <- as.data.frame(unique(as.data.table(data.frame(gene_data, gene_data_upper)), by = 'gene_data_upper'))
+    rownames(gene_data) <- gene_data[,2]
+    PPI <- PPI[which(is.element(PPI[,1], gene_data[,2])),]
+    PPI <- PPI[which(is.element(PPI[,2], gene_data[,2])),]
+    levels(PPI[,1]) <- gene_data[levels(PPI[,1]),1]
+    levels(PPI[,2]) <- gene_data[levels(PPI[,2]),1]
+  }
+  nodes <- union(PPI[,1],PPI[,2])
+  links <- PPI[,1:2]
+  net <- graph_from_data_frame(d = links,vertices = nodes,directed = FALSE)
+  net <- igraph::simplify(net)
+  if(save){
+    saveRDS(as_adj(net),paste(species,'_ppi_matrix_STRING-11.0.Rda',sep=""))
+  }
+  file.remove(paste(species,'.protein.links.v11.0.txt.gz',sep=""))
+  file.remove(paste(species,'.protein.info.v11.0.txt.gz',sep=""))
+  return(as_adj(net))
 }

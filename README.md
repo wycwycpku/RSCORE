@@ -37,8 +37,11 @@ devtools::install_github("wycwycpku/RSCORE", build_opts = NULL)
 For more details and basic usage see following tutorials
 1.	[Single cells from different cell lines](https://github.com/wycwycpku/RSCORE/blob/master/vignettes/RSCORE_Tutorials.pdf)
 2.	[Human embryonic cell altas (HECA)](https://github.com/zorrodong/HECA)
-
+As for PPI data, we have collected some information for human (9606) and mouse (10090) in [PPI_data](https://github.com/wycwycpku/PPI_data). You can also use our functions *getPPI_Biogrid()* or *getPPI_String()*.
 ## News
+2019/10/26:
+-	Get PPI data from STRING 11.0.
+
 2019/07/23:
 -	Add GO enrichment function.
 -	Correct some bugs.
