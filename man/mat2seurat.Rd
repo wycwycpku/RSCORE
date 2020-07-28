@@ -4,11 +4,18 @@
 \alias{mat2seurat}
 \title{processing function}
 \usage{
-mat2seurat(Data, min_nFeature = 1000, min_nCount = 10000,
-  features = NULL, selection.method = c("mean.var.plot", "vst",
-  "dispersion"), nfeatures = NULL, mean.cutoff = c(0.1, Inf),
-  dispersion.cutoff = c(0.1, Inf), names.filed = 1,
-  names.delim = "_")
+mat2seurat(
+  Data,
+  min_nFeature = 1000,
+  min_nCount = 10000,
+  features = NULL,
+  selection.method = c("mean.var.plot", "vst", "dispersion"),
+  nfeatures = NULL,
+  mean.cutoff = c(0.1, Inf),
+  dispersion.cutoff = c(0.1, Inf),
+  names.filed = 1,
+  names.delim = "_"
+)
 }
 \arguments{
 \item{Data}{gene*cell matrix}

@@ -11,6 +11,9 @@ cut_steiner_tree(st_res, k)
 
 \item{k}{number of groups to divide}
 }
+\value{
+
+}
 \description{
 divide the Steiner tree
 }

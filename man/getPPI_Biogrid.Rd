@@ -4,8 +4,12 @@
 \alias{getPPI_Biogrid}
 \title{get PPI from Biogrid}
 \usage{
-getPPI_Biogrid(object = NULL, version = "3.5.174", species = 9606,
-  save = FALSE)
+getPPI_Biogrid(
+  object = NULL,
+  version = "3.5.174",
+  species = 9606,
+  save = FALSE
+)
 }
 \arguments{
 \item{version}{Version of BioGRID, such as '3.5.174'}

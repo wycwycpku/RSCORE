@@ -14,6 +14,7 @@
 #' @param max_step Integer number. The maximum step run in the community detect.
 #' @param AUCRank Integer number. The number of highly-expressed genes to include when computing AUCell.
 #' @param nCores Number of cores to use for computation.
+#' @param SeqMethod A charater string. Sequening methods, default is '10X'
 #'
 #' @return a seurat object
 #' @export
@@ -23,13 +24,28 @@
 #' @examples
 R.SCORE <- function(Data, PPI = 'Biogrid', species = 9606, score_threshold = 600,
                   metric = c('cor','rho','phi','phs'),
-                  module_min = 3, max_step = 10, AUCRank = 400, nCores = 1)
+                  module_min = 3, max_step = 10, AUCRank = 400, SeqMethod = '10X', nCores = 1)
 {
   ## data processing
   if(class(Data) == 'matrix'){
     Data <- mat2seurat(Data)
   }else if(class(Data) != 'Seurat'){
     stop("Wrong data class")
+  }
+
+  if(missing(AUCRank)){
+    if(SeqMethod == '10X'){
+      AUCRank = 200
+    }
+    if(SeqMethod == 'CEL-seq'){
+      AUCRank = 400
+    }
+    if(SeqMethod == 'Drop-seq'){
+      AUCRank = 400
+    }
+    if(SeqMethod == 'Smart-seq'){
+      AUCRank = 400
+    }
   }
 
   ## get PPI network

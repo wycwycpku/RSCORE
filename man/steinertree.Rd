@@ -4,8 +4,14 @@
 \alias{steinertree}
 \title{get steiner tree}
 \usage{
-steinertree(terminals, graph, method = "sp", color = T, weighted = T,
-  optimize = T)
+steinertree(
+  terminals,
+  graph,
+  method = "sp",
+  color = T,
+  weighted = T,
+  optimize = T
+)
 }
 \arguments{
 \item{method}{}

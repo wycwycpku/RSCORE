@@ -4,8 +4,14 @@
 \alias{Find_Markers}
 \title{Find expression markers for all identity classes}
 \usage{
-Find_Markers(object, assay = NULL, binarizeMethod = "median",
-  FoldChange = 2, p.adj = 0.05, cores = 1)
+Find_Markers(
+  object,
+  assay = NULL,
+  binarizeMethod = "median",
+  FoldChange = 2,
+  p.adj = 0.05,
+  cores = 1
+)
 }
 \arguments{
 \item{object}{Seurat object}
@@ -19,6 +25,9 @@ Find_Markers(object, assay = NULL, binarizeMethod = "median",
 \item{p.adj}{default is 0.05}
 
 \item{cores}{default is 1}
+}
+\value{
+
 }
 \description{
 Find expression markers for all identity classes

@@ -4,8 +4,12 @@
 \alias{getPPI_String}
 \title{get PPI from STRING 11.0}
 \usage{
-getPPI_String(object = NULL, species = 9606, score_threshold = 600,
-  save = FALSE)
+getPPI_String(
+  object = NULL,
+  species = 9606,
+  score_threshold = 600,
+  save = FALSE
+)
 }
 \arguments{
 \item{object}{an Seurat object which contains the expression matrix}

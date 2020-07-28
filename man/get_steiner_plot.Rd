@@ -4,9 +4,17 @@
 \alias{get_steiner_plot}
 \title{Get the picture of Steiner tree}
 \usage{
-get_steiner_plot(ig_obj, label_num = 20, name,
-  typeof_node_size = c("pagerank", "degree"), only_label_terminal = T,
-  terminals, marker_genes = NULL, module_genes = NULL, nodes = NULL)
+get_steiner_plot(
+  ig_obj,
+  label_num = 20,
+  name,
+  typeof_node_size = c("pagerank", "degree"),
+  only_label_terminal = T,
+  terminals,
+  marker_genes = NULL,
+  module_genes = NULL,
+  nodes = NULL
+)
 }
 \arguments{
 \item{ig_obj}{the Steiner tree, an igraph object}
