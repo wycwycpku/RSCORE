@@ -34,18 +34,22 @@ R.SCORE <- function(Data, PPI = 'Biogrid', species = 9606, score_threshold = 600
   }
 
   if(missing(AUCRank)){
-    if(SeqMethod == '10X'){
-      AUCRank = 200
-    }
-    if(SeqMethod == 'CEL-seq'){
+    if(missing(SeqMethod)){
       AUCRank = 400
     }
-    if(SeqMethod == 'Drop-seq'){
-      AUCRank = 400
-    }
-    if(SeqMethod == 'Smart-seq'){
-      AUCRank = 400
-    }
+    else{
+      if(SeqMethod == '10X'){
+        AUCRank = 200
+        }
+      if(SeqMethod == 'CEL-seq'){
+        AUCRank = 400
+      }
+      if(SeqMethod == 'Drop-seq'){
+        AUCRank = 200
+      }
+      if(SeqMethod == 'Smart-seq'){
+        AUCRank = 400
+      }}
   }
 
   ## get PPI network
