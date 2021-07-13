@@ -24,7 +24,7 @@
 #' @examples
 R.SCORE <- function(Data, PPI = 'Biogrid', species = 9606, score_threshold = 600,
                   metric = c('cor','rho','phi','phs'),
-                  module_min = 3, max_step = 10, AUCRank = 400, SeqMethod = '10X', nCores = 1)
+                  module_min = 3, max_step = 10, AUCRank = 400, SeqMethod = '10X', nCores = 1, assay_input = 'RNA', assay_output = 'Net')
 {
   ## data processing
   if(class(Data) == 'matrix'){
@@ -64,12 +64,13 @@ R.SCORE <- function(Data, PPI = 'Biogrid', species = 9606, score_threshold = 600
   }
   rm(PPI)
 
+  DefaultAssay(Data)<- assay_input
   Data_expr <- as.matrix(GetAssayData(Data))
   Data_expr_scale <- as.matrix(GetAssayData(Data, slot = 'scale.data'))
   if(length(Data_expr_scale) == 0){
     stop("The Seurat object has not been scaled!")
   }
-  var_genes <- VariableFeatures(Data)
+  var_genes <- VariableFeatures(Data, assay = assay_input)
   if(length(var_genes) == 0){
     stop("No variable features!")
   }
@@ -145,11 +146,11 @@ R.SCORE <- function(Data, PPI = 'Biogrid', species = 9606, score_threshold = 600
   cells_AUC_matrix <- getAUC(cells_AUC)
 
   ## creater net-based seurat object
-  Data[["Net"]] <- CreateAssayObject(counts = as.matrix(cells_AUC_matrix))
+  Data[[assay_output]] <- CreateAssayObject(counts = as.matrix(cells_AUC_matrix))
   Misc(Data, slot = 'geneSets') <- geneSets
   Misc(Data, slot = 'Data_net') <- Data_network_final
-  DefaultAssay(Data) <- "Net"
-  Data <- ScaleData(Data, assay = "Net")
+  DefaultAssay(Data) <- assay_output
+  Data <- ScaleData(Data, assay = assay_output)
 
   return(Data)
 }
