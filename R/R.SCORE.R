@@ -64,21 +64,19 @@ R.SCORE <- function(Data, PPI = 'Biogrid', species = 9606, score_threshold = 600
   }
   rm(PPI)
 
-  DefaultAssay(Data)<- assay_input
-  Data_expr <- as.matrix(GetAssayData(Data))
-  Data_expr_scale <- as.matrix(GetAssayData(Data, slot = 'scale.data'))
-  if(length(Data_expr_scale) == 0){
-    stop("The Seurat object has not been scaled!")
-  }
-  var_genes <- VariableFeatures(Data, assay = assay_input)
-  if(length(var_genes) == 0){
+  var_genes <- VariableFeatures(Data)
+  if (length(var_genes) == 0) {
     stop("No variable features!")
   }
   Data_genes <- var_genes[var_genes %in% as.character(rownames(hs_network_matrix))]
-
-  ## update the expression matrix
-  Data_expr <- Data_expr[Data_genes,]
-  Data_expr_scale <- Data_expr_scale[Data_genes,]
+  print(length(Data_genes))
+  
+  Data_expr <- as.matrix(GetAssayData(Data)[Data_genes,])
+  Data_expr_scale <- as.matrix(GetAssayData(Data, slot = "scale.data")[Data_genes,])
+  
+  if (length(Data_expr_scale) == 0) {
+    stop("The Seurat object has not been scaled!")
+  }
 
   ## calculate the correlation coefficient or other metric
   metric <- metric[1]
