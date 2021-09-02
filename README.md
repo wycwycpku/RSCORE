@@ -1,3 +1,5 @@
+# We are now updating RSCORE to its second version. It's almost ready. Just a moment, please! 2021.09.02
+
 # RSCORE
 RSCORE is an R package to explore single-cell RNA-seq data with the view of molecular networks. The method is outlined in our manuscript 
 
